@@ -1,24 +1,28 @@
-import logo from './logo.svg';
+import React from 'react';
+import AppsBtn from './components/AppsBtn';
+import ServersBtn from './components/ServersBtn';
+import ServersDashboard from './components/ServersDashboard';
+import AppProvider from './context/AppProvider';
 import './App.css';
 
 function App() {
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <AppProvider>
+      <div className="App">
+        <div id='sidebar'>
+            <div>
+                <ServersBtn />
+            </div>
+            <div>
+                <AppsBtn />
+            </div>
+        </div>
+        <div>
+            <ServersDashboard />
+        </div>
     </div>
+    </AppProvider>
   );
 }
 

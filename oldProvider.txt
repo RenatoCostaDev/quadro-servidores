@@ -1,0 +1,304 @@
+import { useState } from 'react';
+import AppContext from './AppContext'
+import { inicialApps, inicialServers } from '../data'
+import { timeInNumber } from '../utils'
+
+const AppProvider = ({ children }) => {
+  const  [serversArray, setServersArray] = useState(inicialServers)
+  const [appsObj, setAppsObj] = useState(inicialApps)
+  
+  
+  const handleNewServer = () => {
+    const newServer = {
+        id: serversArray.serversOn.length + 1,
+        app: [],
+        color: 'gray',
+    }
+        setServersArray((prevState) => (
+        {
+          ...prevState,
+          serversOn: [...prevState.serversOn, newServer]
+        }
+        ))          
+  }
+  
+ const handleDestroyServer = () => {
+    const lastServerOn = serversArray.serversOn[serversArray.serversOn.length - 1]
+    const lastServerNumApps = serversArray.serversOn[serversArray.serversOn.length - 1].app.length
+    if (!lastServerOn) {
+        return alert('Nenhum servidor para excluir')
+    }
+
+    if (lastServerNumApps === 1) {
+        const firstApp = serversArray.serversOn[serversArray.serversOn.length - 1].app[0]
+
+        setAppsObj((prevState) => {
+            return prevState.map((app) => {
+                if (app.name === firstApp.name ){
+                    return {...app, qtde: app.qtde - 1}
+                }
+                return app
+            })
+        })
+    } else if (lastServerNumApps === 2) {
+        const firstApp = serversArray.serversOn[serversArray.serversOn.length - 1].app[0]
+        const secondApp = serversArray.serversOn[serversArray.serversOn.length - 1].app[1]
+
+        setAppsObj((prevState) => {
+            return prevState.map((app) => {
+                if (app.name === firstApp.name ){
+                    return {...app, qtde: app.qtde - 1}
+                } else if (app.name === secondApp.name ){
+                    return {...app, qtde: app.qtde - 1}
+                }
+                return app
+            })
+        })
+    } else {
+        let lastServerWithAppEmptyId = serversArray.serversOn[serversArray.serversOn.length - 1].id  
+        let newServersArrayOn = serversArray.serversOn.filter(({id}) => id !== lastServerWithAppEmptyId)   
+        setServersArray((prevState) => (
+              {
+                ...prevState,
+                serversOn: [...newServersArrayOn]
+              }
+        ))
+        return
+    }
+   
+    const newServersArrayOn = serversArray.serversOn.filter(({id}) => id !== serversArray.serversOn.length)
+    setServersArray((prevState) => (
+        {
+          ...prevState,
+          serversOn: [...newServersArrayOn]
+        }
+    ))
+    const appsFromServers = serversArray.serversOn
+    // Redistribui apps
+    appsFromServers.forEach(({app}) => handleNewApp(app.name, app.color, false));
+    
+ }
+
+ const handleNewApp = (color, nameParameter, showAlert = true) => {
+    const serverTotalEmpty = serversArray.serversOn.filter(({app}) => app.length === 0)
+    const serverWithOneApp = serversArray.serversOn.filter(({app}) => app.length === 1)
+    
+    const serverToInstall = serverTotalEmpty || serverWithOneApp;
+    if (!serverToInstall) {
+        if (showAlert) {
+          return alert("Crie servidores");
+        }
+        return;
+    }
+
+    if (serverTotalEmpty.length !== 0) {
+        let number = timeInNumber()
+
+        let newAppUnity = {
+            id: number,
+            name: nameParameter,
+            color: color,
+            createdAt: number,
+        }
+        setServersArray((prevState) => {
+            return {
+                ...prevState,
+                serversOn: prevState.serversOn.map((server) => {
+                    if (server.id === serverTotalEmpty[0].id) {
+                        return {...server, app: [...server.app, newAppUnity]}
+                    }
+                   return server
+                })
+            }
+        })
+
+
+        setAppsObj((prevState) => {
+            return prevState.map((app) => {
+                if (app.name === nameParameter ){
+                    return {...app, qtde: app.qtde + 1}
+                }
+                return app
+            })
+        })
+
+
+    } else if (serverWithOneApp.length !== 0) {
+        let number = timeInNumber()
+
+        let newAppUnity = {
+            id: number,
+            name: nameParameter,
+            color: color,
+            createdAt: number,
+        }
+        setServersArray((prevState) => {
+            return {
+                ...prevState,
+                serversOn: prevState.serversOn.map((server) => {
+                    if (server.id === serverWithOneApp[0].id) {
+                        return {...server, app: [...server.app, newAppUnity]}
+                    }
+                   return server
+                })
+            }
+        })
+
+
+            setAppsObj((prevState) => {
+                return prevState.map((app) => {
+                    if (app.name === nameParameter ){
+                        return {...app, qtde: app.qtde + 1}
+                    }
+                    return app
+                })
+            })
+    } else {
+        alert('Crie novos servidores !!')
+    }
+  }
+
+  const handleKillApp = (nameParameter) => {
+    setAppsObj((prevState) => {
+        return prevState.map((app) => {
+            if (app.name === nameParameter && app.qtde !== 0){
+                return {...app, qtde: app.qtde - 1}
+            }
+            return app
+        })
+    })
+
+    const newServerOnArray = serversArray.serversOn.filter(({app}) => app.some((element) => element.name !== nameParameter))
+    console.log(newServerOnArray);
+    setServersArray((prevState) => (
+        {
+          ...prevState,
+          serversOn: [...newServerOnArray]
+        }
+    ))
+    const appsFromServers = serversArray.serversOn
+    // Redistribui apps
+    appsFromServers.forEach(({app}) => handleNewApp(app.name, app.color, false));
+  }
+
+    return (
+        <div>
+            <AppContext.Provider value={{handleNewServer, handleDestroyServer, handleNewApp, handleKillApp, appsObj, serversArray}} >
+                { children }              
+            </AppContext.Provider>
+        </div>
+    )
+}
+
+export default AppProvider;
+
+//2nda tentativa
+
+import { useState } from 'react';
+import AppContext from './AppContext'
+import { inicialApps, inicialServers } from '../data'
+import { timeInNumber, allEmpty, notFull, halfFull } from '../utils'
+
+const AppProvider = ({ children }) => {
+  const  [serversArray, setServersArray] = useState(inicialServers)
+  const [appsObj, setAppsObj] = useState(inicialApps)
+  
+  
+  const handleNewServer = () => {
+    const newServer = {
+        id: serversArray.length + 1,
+        app: [],
+        color: 'gray',
+    }
+    setServersArray((prevState) => ([...prevState, newServer]))          
+  }
+  
+ const handleDestroyServer = () => {
+    const serversEmpty = serversArray.every(allEmpty)
+
+    if (serversEmpty && serversArray.length !== 0) {
+        let newServersArray = serversArray.pop()
+        setServersArray([...newServersArray])
+        return
+    } else {
+        const lastServerToBeDestroy = serversArray.pop() 
+        const newArray = serversArray.filter(({id}) => id !== lastServerToBeDestroy.id)
+        setServersArray([...newArray])
+        for (let i = 0; i < lastServerToBeDestroy.app.length; i++) {
+            handleNewApp( lastServerToBeDestroy.app[i].name, lastServerToBeDestroy.app[i].color, lastServerToBeDestroy.app[i].createdAt)
+        }
+    } 
+    return
+ }
+
+ const handleNewApp = ( nameParameter, colorParameter, createdAtParameter = timeInNumber(), showAlert = true) => {
+    let number = timeInNumber()
+    let newAppUnity = {
+        id: number * Math.random(),
+        name: nameParameter,
+        color: colorParameter,
+        createdAt: createdAtParameter,
+    }
+    
+    let serversEmpty = serversArray.find(notFull)
+    if (!serversEmpty) {
+        if (showAlert) {
+          return alert("Falta de espaço no servidor ou falta de servidor !");
+        }
+        return;
+    } else if (serversEmpty){
+        let usefullServers = serversArray.find(allEmpty)
+        if (usefullServers) {
+           setServersArray((prevState) => {
+               return prevState.map((server) => {
+                   if (server.id === usefullServers.id) {
+                       return { ...server, app: [newAppUnity] }
+                   }
+                   return server
+               })
+           })
+        } else {
+            let firstServerAvaiable = serversArray.find(halfFull)
+            // console.log(firstServerAvaiable);
+            setServersArray((prevState) => {
+               return prevState.map((server) => {
+                   if (server.id === firstServerAvaiable.id) {
+                       return { ...server, app: [...server.app, newAppUnity] }
+                   }
+                   return server
+               })
+           })
+        }
+    } 
+  }
+
+  const handleKillApp = (nameParameter, colorParameter ) => {
+    // setServersArray((prevState) => {
+    //     return prevState.map(({app}) => {
+    //         for(let item of app){
+    //             if (item.name === nameParameter) {
+    //                 const pos = app.indexOf(nameParameter)
+    //                 app.splice(pos, 1)
+    //             }
+    //             return item
+    //         }
+    //     })
+    // })
+    // const newServers = serversArray.map(({app}) => app.find((item) => item.name !== nameParameter ))
+    // console.log(newServers);
+    // const definedApps = newServers.filter((item) => typeof(item) !== 'undefined')
+    // console.log(definedApps);
+    // setServersArray(inicialApps)
+    // definedApps.map(({name, color, createdAt})  => handleNewApp(name, color, createdAt))
+  }
+
+    return (
+        <div>
+            <AppContext.Provider value={{handleNewServer, handleNewApp, handleDestroyServer, handleKillApp, appsObj, serversArray}} >
+                { children }              
+            </AppContext.Provider>
+        </div>
+    )
+}
+
+export default AppProvider;
