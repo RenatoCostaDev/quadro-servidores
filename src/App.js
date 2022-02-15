@@ -3,7 +3,7 @@ import AppsBtn from './components/AppsBtn';
 import ServersBtn from './components/ServersBtn';
 import ServersDashboard from './components/ServersDashboard';
 import AppProvider from './context/AppProvider';
-import './App.css';
+import './App.scss';
 
 function App() {
   

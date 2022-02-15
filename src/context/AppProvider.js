@@ -140,7 +140,7 @@ const AppProvider = ({ children }) => {
     })
     setAppsObj((prevState) => {
         return prevState.map((app) => {
-            if (app.name === nameParameter ){
+            if (app.name === nameParameter && app.qtde > 0){
                 return {...app, qtde: app.qtde - 1}
             }
             return app

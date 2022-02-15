@@ -1,0 +1,151 @@
+@import "./variables.scss";
+* {
+  @include margin-padding(0, 0);
+  box-sizing: border-box;
+}
+
+body {
+  color: $letters-addSign;
+  font-size: 30px;
+  font-family: $font-family;
+  & .header {
+    font-size: 50px;
+    height: 20%;
+    @include centerItens(baseline);
+  }
+}
+
+.App {
+  display: flex;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: $black-app;
+  flex-direction: row;
+}
+
+.header h4 {
+  padding: 25px;
+  font-size: 40px;
+  margin-left: 10px;
+  margin-bottom: 80px;
+  margin-top: 15px;
+}
+
+#headerAppsBtn {
+  margin-bottom: 15px;
+  margin-left: 20px;
+  color: $gray-default;
+  font-size: 15px;
+}
+
+#appsBtns {
+  margin-top: 80px;
+}
+
+#appslist {
+  & li {
+    display: flex;
+    padding: 15px;
+    width: 275px;
+    margin-bottom: 5px;
+    justify-content: space-between;
+    background: $appList-minus;
+    border-radius: 15px;
+  }
+
+  & button {
+    @include heigth-width(40px, 40px);
+    border-radius: 50px;
+    font-size: 25px;
+  }
+
+  & .qtde {
+    color: $gray-default;
+    font-size: 20px;
+    position: absolute;
+    margin-left: 140px;
+    margin-top: 8px;
+  }
+
+  & .minus {
+    background: $appList-minus;
+    border: 2px solid $gray-default;
+    color: $gray-default;
+    position: absolute;
+    margin-left: 185px;
+  }
+
+  & .add {
+    position: absolute;
+    margin-left: 240px;
+    color: $letters-addSign;
+    text-shadow: 5px 5px 10px $add-shadow;
+  }
+}
+.namesApp {
+  font-size: 30px;
+}
+
+#sidebar {
+  background: $black;
+}
+
+#serverDashboard {
+  display: flex;
+  width: 87vw;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.server {
+  @include margin-padding(10, 20);
+  @include heigth-width(200px, 20%);
+  color: $letters-addSign;
+  text-shadow: 5px 5px 10px $server-shadow;
+  border-radius: 10px;
+}
+.appsdashboard {
+  @include centerItens(center);
+  flex-direction: column;
+  height: 80px;
+  border-radius: 10px;
+  margin: 15px 15px;
+}
+.createdtime {
+  color: $createdTime-color;
+  font-size: 15px;
+}
+
+#clustersbtn {
+  @include centerItens(space-around);
+  font-size: 15px;
+  margin-top: 30px;
+  button {
+    @include heigth-width(50px, 50px);
+    border-radius: 50px;
+    font-size: 35px;
+    margin-bottom: 10px;
+    background: $black;
+    border: 5px solid $gray-default;
+    color: $gray-default;
+  }
+  & button:hover {
+    background-color: $gray-default;
+    color: $letters-addSign;
+  }
+}
+
+.addServer {
+  margin-left: 25px;
+}
+.minusServer {
+  margin-left: 11px;
+}
+button:hover {
+  background-color: $gray-default;
+  color: $letters-addSign;
+}
