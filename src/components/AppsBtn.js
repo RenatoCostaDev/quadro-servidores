@@ -19,7 +19,7 @@ const { appsObj, handleNewApp, handleKillApp} = useContext(AppContext)
                         <li key={id}>
                             <span className='namesApp'>{name}</span>
                             <span className='qtde'>{qtde}</span>
-                            <button onClick={()=>handleKillApp(name, id)} className='minus'>-</button>
+                            <button onClick={()=>handleKillApp(name)} className='minus'>-</button>
                             <button onClick={()=>handleNewApp(name, color)} style={{backgroundColor:color}} className='add'>+</button>
                         </li>
                     )

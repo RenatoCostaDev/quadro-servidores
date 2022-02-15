@@ -39,22 +39,26 @@ const inicialApps = [
 const inicialServers = [
         {
             id:1,
-            app: [],
+            appOne: {},
+            appTwo: {},
             color: 'gray',
         },
         {
             id:2,
-            app: [],
+            appOne: {},
+            appTwo: {},
             color: 'gray',
         },
         {
             id:3,
-            app: [],
+            appOne: {},
+            appTwo: {},
             color: 'gray',
         },
         {
             id:4,
-            app: [],
+            appOne: {},
+            appTwo: {},
             color: 'gray',
         },
 ]

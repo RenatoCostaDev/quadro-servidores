@@ -1,10 +1,33 @@
 const timeInNumber = () => new Date().getMinutes()
-const allEmpty = ({app}) => app.length === 0
-const halfFull = ({app}) => app.length === 1
-const notFull = ({app}) => app.length >= 0 && app.length < 2
+const emptyOne = ({appOne}) => Object.entries(appOne).length  === 0
+const emptyTwo = ({appTwo}) => Object.entries(appTwo).length  === 0
+
+const isEmpty = ({appOne, appTwo}) => {
+  if (Object.entries(appOne).length  === 0 && Object.entries(appTwo).length  === 0) {
+    return true
+  }
+  return false
+}
+
+const appOneReturn = (appOne) => {
+  if (Object.entries(appOne).length  !== 0) {
+    return appOne
+  }
+  return false
+}
+
+const appTwoReturn = (appTwo) => {
+  if (Object.entries(appTwo).length  !== 0) {
+    return appTwo
+  }
+  return false
+}
+
 module.exports = {
   timeInNumber,
-  allEmpty,
-  halfFull,
-  notFull,
+  emptyOne,
+  emptyTwo,
+  isEmpty,
+  appOneReturn,
+  appTwoReturn,
 };

@@ -12,17 +12,17 @@ const ServersDashboard = () => {
             </header>
             <div id='serverDashboard'>
                 {
-                    serversArray.sort((a, b) => a.id - b.id).map(({id, app, color},index)=> {
+                    serversArray.sort((a, b) => a.id - b.id).map(({id, appOne, appTwo, color},index)=> {
                         return (
                             <div key={id} style={{backgroundColor:color}} className='server'>
-                                {app.map(({name, color, createdAt}, index) => {
-                                    return (                                        
-                                        <div key={index} style={{backgroundColor:color}} className='appsdashboard'>
-                                            <h4>{name}</h4>
-                                            <h4 className='createdtime'>Added {timeInNumber() - createdAt} minutes ago</h4>
-                                        </div>
-                                    )                            
-                                })}
+                                <div key={timeInNumber()} style={{backgroundColor:appOne.color}} className='appsdashboard'>
+                                    <h4>{appOne.name}</h4>
+                                    {appOne.createdAt && <h4 className='createdtime'>Added  {timeInNumber() - appOne.createdAt} minutes ago</h4>}
+                                </div>
+                                <div key={timeInNumber() + 1} style={{backgroundColor:appTwo.color}} className='appsdashboard'>
+                                    <h4>{appTwo.name}</h4>
+                                    {appTwo.createdAt && <h4 className='createdtime'>Added  {timeInNumber() - appTwo.createdAt} minutes ago</h4>}
+                                </div>
                             </div> 
                         )                            
                     })
